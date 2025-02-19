@@ -3,9 +3,10 @@ package hackerrank;
 import java.util.*;
 
 abstract class Node implements Comparable<Node> {
-    public  int frequency; // the frequency of this tree
-    public  char data;
-    public  Node left, right;
+    public int frequency; // the frequency of this tree
+    public char data;
+    public Node left, right;
+
     public Node(int freq) {
         frequency = freq;
     }
@@ -52,15 +53,14 @@ class Decoding {
         StringBuilder result = new StringBuilder();
         char[] ch = s.toCharArray();
         Node currentNode = root;
-        for (int i =0; i<s.length(); i++) {
+        for (int i = 0; i < s.length(); i++) {
             if (ch[i] == '1') {
                 currentNode = currentNode.right;
                 if (currentNode.left == null && currentNode.right == null) {
                     result.append(currentNode.data);
                     currentNode = root;
                 }
-            }
-            else if (ch[i] == '0') {
+            } else if (ch[i] == '0') {
                 currentNode = currentNode.left;
                 if (currentNode.left == null && currentNode.right == null) {
                     result.append(currentNode.data);
@@ -73,7 +73,6 @@ class Decoding {
 
 
     }
-
 
 
 }
@@ -89,7 +88,7 @@ public class HuffmanHackerrank {
         // one for each non-empty character
         for (int i = 0; i < charFreqs.length; i++)
             if (charFreqs[i] > 0)
-                trees.offer(new HuffmanLeaf(charFreqs[i], (char)i));
+                trees.offer(new HuffmanLeaf(charFreqs[i], (char) i));
 
         assert trees.size() > 0;
 
@@ -106,38 +105,38 @@ public class HuffmanHackerrank {
         return trees.poll();
     }
 
-    public static Map<Character,String> mapA=new HashMap<Character ,String>();
+    public static Map<Character, String> mapA = new HashMap<Character, String>();
 
     public static void printCodes(Node tree, StringBuffer prefix) {
 
         assert tree != null;
 
         if (tree instanceof HuffmanLeaf) {
-            HuffmanLeaf leaf = (HuffmanLeaf)tree;
+            HuffmanLeaf leaf = (HuffmanLeaf) tree;
 
             // print out character, frequency, and code for this leaf (which is just the prefix)
             //System.out.println(leaf.data + "\t" + leaf.frequency + "\t" + prefix);
-            mapA.put(leaf.data,prefix.toString());
+            mapA.put(leaf.data, prefix.toString());
 
         } else if (tree instanceof HuffmanNode) {
-            HuffmanNode node = (HuffmanNode)tree;
+            HuffmanNode node = (HuffmanNode) tree;
 
             // traverse left
             prefix.append('0');
             printCodes(node.left, prefix);
-            prefix.deleteCharAt(prefix.length()-1);
+            prefix.deleteCharAt(prefix.length() - 1);
 
             // traverse right
             prefix.append('1');
             printCodes(node.right, prefix);
-            prefix.deleteCharAt(prefix.length()-1);
+            prefix.deleteCharAt(prefix.length() - 1);
         }
     }
 
     public static void main(String[] args) {
         Scanner input = new Scanner(System.in);
 
-        String test= input.next();
+        String test = input.next();
 
         // we will assume that all our characters will have
         // code less than 256, for simplicity
@@ -154,7 +153,7 @@ public class HuffmanHackerrank {
         printCodes(tree, new StringBuffer());
         StringBuffer s = new StringBuffer();
 
-        for(int i = 0; i < test.length(); i++) {
+        for (int i = 0; i < test.length(); i++) {
             char c = test.charAt(i);
             s.append(mapA.get(c));
         }
